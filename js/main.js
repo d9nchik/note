@@ -149,9 +149,14 @@ function deleteNote() {
         }
         LOCAL_STORAGE.removeItem(name);
         openNote('blank');
-        NAME_FIELD.value = name;
         displayNames();
     }
+}
+
+function createNewNote() {
+    openNote(prompt('Enter name of note'), 'void');
+    save();
+    displayNames();
 }
 
 window.onload = function () {
