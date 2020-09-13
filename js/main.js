@@ -136,9 +136,26 @@ function displayNames() {
     }
 }
 
+function deleteNote() {
+    if (confirm('Are you sure you want to delete note?')) {
+        //deleting
+        if (keys.includes(name)) {
+
+            let indexOf = keys.indexOf(name);
+            keys.splice(indexOf, 1);
+            dateOfCreation.splice(indexOf, 1);
+            LOCAL_STORAGE.setItem(NAME_OF_KEYS_ARRAY, JSON.stringify(keys));
+            LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
+        }
+        LOCAL_STORAGE.removeItem(name);
+        openNote('blank');
+        NAME_FIELD.value = name;
+        displayNames();
+    }
+}
+
 window.onload = function () {
     normalizeName();
     openNote(name);
-    NAME_FIELD.value = name;
     displayNames();
 }
