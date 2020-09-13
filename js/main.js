@@ -53,14 +53,25 @@ function changeURL() {
 
 function displayNames() {
     NOTES_FIELD.textContent = '';
-    let list = document.createElement('ul');
     for (let key of Object.keys(LOCAL_STORAGE)) {
-        let li = document.createElement('li');
-        let text = document.createTextNode(LOCAL_STORAGE.getItem(key));
-        li.appendChild(text);
-        list.appendChild(li);
+        let card = document.createElement('div');
+        NOTES_FIELD.appendChild(card);
+        card.setAttribute('class', 'card');
+
+        let cardBody = document.createElement("div");
+        card.appendChild(cardBody);
+        cardBody.setAttribute('class', 'card-body bg-dark');
+
+        let h5 = document.createElement('h5');
+        cardBody.appendChild(h5);
+        h5.setAttribute('class', 'card-title');
+        h5.appendChild(document.createTextNode(key));
+
+        let p = document.createElement('p');
+        cardBody.appendChild(p);
+        p.setAttribute('class', 'card-text');
+        p.appendChild(document.createTextNode(LOCAL_STORAGE.getItem(key).slice(0, 50)));
     }
-    NOTES_FIELD.appendChild(list);
 }
 
 window.onload = function () {
