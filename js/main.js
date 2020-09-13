@@ -2,10 +2,19 @@ const LOCAL_STORAGE = window.localStorage;
 const TEXT_AREA = document.getElementById('noteTextArea');
 const NAME_FIELD = document.getElementById('urlName');
 const NOTES_FIELD = document.getElementById('notesNames');
+const NAME_OF_KEYS_ARRAY = 'hesoyamBaguvix';//Easter egg
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let name = urlParams.get('name');
+
+const keys = (() => {
+    let keys = LOCAL_STORAGE.getItem(NAME_OF_KEYS_ARRAY);
+    if (!keys) {
+        return [];
+    }
+    return JSON.parse(keys);
+})();
 
 function getTextFromTextArea() {
     return TEXT_AREA.value;
@@ -37,8 +46,17 @@ function setTextToTextArea(string) {
     TEXT_AREA.value = string;
 }
 
+function pushTopKey() {
+    if (keys.includes(name)) {
+        keys.splice(keys.indexOf(name), 1);
+    }
+    keys.unshift(name);
+    LOCAL_STORAGE.setItem(NAME_OF_KEYS_ARRAY, JSON.stringify(keys));
+}
+
 function save() {
     putInLocaleStorage(getTextFromTextArea(), name);
+    pushTopKey();
 }
 
 function setNewURL(newName) {
@@ -50,8 +68,10 @@ function setNewURL(newName) {
 
 function renameURL() {
     deleteFromLocaleStorage();
+    keys.splice(keys.indexOf(name), 1);
     setNewURL(NAME_FIELD.value);
     save();
+    displayNames();
 }
 
 function openNote(noteName) {
@@ -64,7 +84,8 @@ function openNote(noteName) {
 
 function displayNames() {
     NOTES_FIELD.textContent = '';
-    for (let key of Object.keys(LOCAL_STORAGE)) {
+    NOTES_FIELD.appendChild(document.createTextNode('Select note:'))
+    for (let key of keys) {
         let card = document.createElement('div');
         NOTES_FIELD.appendChild(card);
         card.setAttribute('class', 'card bg-dark');
@@ -72,7 +93,7 @@ function displayNames() {
         let cardBody = document.createElement("div");
         card.appendChild(cardBody);
         cardBody.setAttribute('class', 'card-body');
-        cardBody.setAttribute('onclick', "save(); openNote('" + key + "');");
+        cardBody.setAttribute('onclick', "openNote('" + key + "');");
         if (key === name) {
             cardBody.setAttribute('id', 'selectedCard');
         }
