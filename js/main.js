@@ -39,7 +39,14 @@ function changeURL() {
     name = NAME_FIELD.value;
     save();
     let newURL = window.location.href.replace('name=' + oldName, 'name=' + name);
-    window.history.pushState(name, name, newURL)
+    window.history.pushState(name, name, newURL);
+}
+
+function displayNames() {
+    //TODO: finish
+    for (let key of Object.keys(LOCAL_STORAGE)) {
+        console.log(key);
+    }
 }
 
 window.onload = function () {
