@@ -81,9 +81,13 @@ function setNewURL(newName) {
 
 function renameURL() {
     deleteFromLocaleStorage();
-    let indexOf = keys.indexOf(name);
-    keys.splice(indexOf, 1);
-    dateOfCreation.splice(indexOf, 1);
+    if (keys.includes(name)) {
+
+        let indexOf = keys.indexOf(name);
+        keys.splice(indexOf, 1);
+        dateOfCreation.splice(indexOf, 1);
+    }
+
     setNewURL(NAME_FIELD.value);
     save();
     displayNames();
