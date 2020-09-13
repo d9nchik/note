@@ -15,7 +15,7 @@ function putInLocaleStorage(string, name) {
     LOCAL_STORAGE.setItem(name, string);
 }
 
-function getFromLocaleStorage() {
+function normalizeName() {
     if (!name) {
         name = 'blank'
         let newURL = window.location.href;
@@ -27,7 +27,6 @@ function getFromLocaleStorage() {
         newURL += 'name=' + name;
         window.history.pushState(name, name, newURL);
     }
-    return LOCAL_STORAGE.getItem(name);
 }
 
 function deleteFromLocaleStorage() {
@@ -42,13 +41,25 @@ function save() {
     putInLocaleStorage(getTextFromTextArea(), name);
 }
 
-function changeURL() {
-    let oldName = name;
-    deleteFromLocaleStorage();
-    name = NAME_FIELD.value;
-    save();
-    let newURL = window.location.href.replace('name=' + oldName, 'name=' + name);
+function setNewURL(newName) {
+    let newURL = window.location.href.replace('name=' + name, 'name=' + newName);
+    name = newName;
     window.history.pushState(name, name, newURL);
+
+}
+
+function renameURL() {
+    deleteFromLocaleStorage();
+    setNewURL(NAME_FIELD.value);
+    save();
+}
+
+function openNote(noteName) {
+    NAME_FIELD.value = noteName;
+    setNewURL(noteName);
+    setTextToTextArea(LOCAL_STORAGE.getItem(noteName));
+    displayNames();
+
 }
 
 function displayNames() {
@@ -56,11 +67,16 @@ function displayNames() {
     for (let key of Object.keys(LOCAL_STORAGE)) {
         let card = document.createElement('div');
         NOTES_FIELD.appendChild(card);
-        card.setAttribute('class', 'card');
+        card.setAttribute('class', 'card bg-dark');
 
         let cardBody = document.createElement("div");
         card.appendChild(cardBody);
-        cardBody.setAttribute('class', 'card-body bg-dark');
+        cardBody.setAttribute('class', 'card-body');
+        cardBody.setAttribute('onclick', "save(); openNote('" + key + "');");
+        if (key === name) {
+            cardBody.setAttribute('id', 'selectedCard');
+        }
+
 
         let h5 = document.createElement('h5');
         cardBody.appendChild(h5);
@@ -75,7 +91,8 @@ function displayNames() {
 }
 
 window.onload = function () {
-    setTextToTextArea(getFromLocaleStorage());
+    normalizeName();
+    openNote(name);
     NAME_FIELD.value = name;
     displayNames();
 }

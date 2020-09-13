@@ -21,13 +21,18 @@ body{
     background-color: #495057;
 }
 
-#noteTextArea{
+#noteTextArea {
     background-color: #282829;
     color: inherit;
     resize: none;
     height: 80%;
     min-height: 80vh;
 }
- #urlName{
-     background-color: #818182;
- }
+
+#urlName {
+    background-color: #818182;
+}
+
+#selectedCard {
+    background-color: #c99320;
+}
