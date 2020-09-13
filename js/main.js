@@ -16,6 +16,7 @@ function putInLocaleStorage(string, name) {
 
 function getFromLocaleStorage() {
     if (!name) {
+        name = 'blank'
         let newURL = window.location.href;
         if (urlParams.keys.length === 0) {
             newURL += 'index.html?';
@@ -24,8 +25,6 @@ function getFromLocaleStorage() {
         }
         newURL += 'name=' + name;
         window.history.pushState(name, name, newURL);
-        console.log(newURL);
-        name = 'blank'
     }
     return LOCAL_STORAGE.getItem(name);
 }
