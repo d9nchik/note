@@ -25,8 +25,8 @@ body{
     background-color: #282829;
     color: inherit;
     resize: none;
-    height: 80%;
-    min-height: 80vh;
+    height: 60%;
+    min-height: 60vh;
 }
 
 #urlName {
@@ -35,4 +35,8 @@ body{
 
 #selectedCard {
     background-color: #c99320;
+}
+
+#trash:hover svg {
+    color: red;
 }
