@@ -16,6 +16,14 @@ function putInLocaleStorage(string, name) {
 
 function getFromLocaleStorage() {
     if (!name) {
+        let newURL = window.location.href
+        if (urlParams.keys.length === 0) {
+            newURL += 'index.html?'
+        } else {
+            newURL += '?'
+        }
+        newURL += 'name=' + name
+        window.history.pushState(name, name, newURL);
         name = 'blank'
     }
     return LOCAL_STORAGE.getItem(name);
@@ -50,6 +58,6 @@ function displayNames() {
 }
 
 window.onload = function () {
-    NAME_FIELD.value = name;
     setTextToTextArea(getFromLocaleStorage());
+    NAME_FIELD.value = name;
 }
