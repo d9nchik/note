@@ -1,16 +1,23 @@
 const LOCAL_STORAGE = window.localStorage;
 const TEXT_AREA = document.getElementById('noteTextArea');
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+let name = urlParams.get('name')
+
 function getTextFromTextArea() {
     return TEXT_AREA.value;
 }
 
-function putInLocaleStorage(string) {
-    LOCAL_STORAGE.setItem('1', string);
+function putInLocaleStorage(string, name) {
+    LOCAL_STORAGE.setItem(name, string);
 }
 
 function getFromLocaleStorage() {
-    return LOCAL_STORAGE.getItem('1');
+    if (!name){
+        name='blank'
+    }
+    return LOCAL_STORAGE.getItem(name);
 }
 
 function setTextToTextArea(string) {
@@ -18,8 +25,7 @@ function setTextToTextArea(string) {
 }
 
 function save() {
-    putInLocaleStorage(getTextFromTextArea());
-    console.log('Save!')
+    putInLocaleStorage(getTextFromTextArea(), name);
 }
 
 window.onload = function () {
