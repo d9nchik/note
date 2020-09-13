@@ -42,7 +42,7 @@ function save() {
 }
 
 function setNewURL(newName) {
-    let newURL = window.location.href.replace('name=' + name, 'name=' + newName);
+    let newURL = window.location.href.replace('name=' + encodeURI(name), 'name=' + newName);
     name = newName;
     window.history.pushState(name, name, newURL);
 
