@@ -22,8 +22,11 @@
     <div class="row">
         <div class="col-sm-12 col-xl-4 col-lg-3">content</div>
         <div class="col-sm-12 col-xl-8 col-lg-9" id="textAreaColumn">
-                <label for="noteTextArea">Example textarea</label>
-                <textarea class="form-control" id="noteTextArea" onkeyup="save()" onchange="save()"></textarea>
+            <label for="urlName">Your unique name parameter:</label><input type="text" id="urlName"
+                                                                           class="text-white" onchange="changeURL()"
+                                                                           onkeyup="changeURL()"><br>
+            <label for="noteTextArea">Start thinking</label>
+            <textarea class="form-control" id="noteTextArea" onkeyup="save()" onchange="save()"></textarea>
         </div>
     </div>
 </div>
