@@ -40,3 +40,7 @@ body{
 #trash:hover svg {
     color: red;
 }
+
+.card.btn:hover {
+    color: #8e661e;
+}

@@ -109,7 +109,7 @@ function displayNames() {
         let date = new Date(dateOfCreation[i]);
         let card = document.createElement('div');
         NOTES_FIELD.appendChild(card);
-        card.setAttribute('class', 'card bg-dark');
+        card.setAttribute('class', 'card btn btn-secondary bg-dark');
 
         let cardBody = document.createElement("div");
         card.appendChild(cardBody);
