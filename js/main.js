@@ -18,7 +18,7 @@ function getFromLocaleStorage() {
     if (!name) {
         name = 'blank'
         let newURL = window.location.href;
-        if (urlParams.keys.length === 0) {
+        if (!urlParams.keys().next()) {
             newURL += 'index.html?';
         } else {
             newURL += '?';
