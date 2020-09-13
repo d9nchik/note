@@ -3,6 +3,7 @@ const TEXT_AREA = document.getElementById('noteTextArea');
 const NAME_FIELD = document.getElementById('urlName');
 const NOTES_FIELD = document.getElementById('notesNames');
 const NAME_OF_KEYS_ARRAY = 'hesoyamBaguvix';//Easter egg
+const NAME_OF_DATE_ARRAY = 'timeSingularity';
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -10,6 +11,14 @@ let name = urlParams.get('name');
 
 const keys = (() => {
     let keys = LOCAL_STORAGE.getItem(NAME_OF_KEYS_ARRAY);
+    if (!keys) {
+        return [];
+    }
+    return JSON.parse(keys);
+})();
+
+const dateOfCreation = (() => {
+    let keys = LOCAL_STORAGE.getItem(NAME_OF_DATE_ARRAY);
     if (!keys) {
         return [];
     }
@@ -48,10 +57,14 @@ function setTextToTextArea(string) {
 
 function pushTopKey() {
     if (keys.includes(name)) {
-        keys.splice(keys.indexOf(name), 1);
+        let indexOf = keys.indexOf(name);
+        keys.splice(indexOf, 1);
+        dateOfCreation.splice(indexOf, 1);
     }
     keys.unshift(name);
+    dateOfCreation.unshift(new Date())
     LOCAL_STORAGE.setItem(NAME_OF_KEYS_ARRAY, JSON.stringify(keys));
+    LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
 }
 
 function save() {
@@ -68,7 +81,9 @@ function setNewURL(newName) {
 
 function renameURL() {
     deleteFromLocaleStorage();
-    keys.splice(keys.indexOf(name), 1);
+    let indexOf = keys.indexOf(name);
+    keys.splice(indexOf, 1);
+    dateOfCreation.splice(indexOf, 1);
     setNewURL(NAME_FIELD.value);
     save();
     displayNames();
@@ -85,7 +100,9 @@ function openNote(noteName) {
 function displayNames() {
     NOTES_FIELD.textContent = '';
     NOTES_FIELD.appendChild(document.createTextNode('Select note:'))
-    for (let key of keys) {
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let date = new Date(dateOfCreation[i]);
         let card = document.createElement('div');
         NOTES_FIELD.appendChild(card);
         card.setAttribute('class', 'card bg-dark');
@@ -103,6 +120,10 @@ function displayNames() {
         cardBody.appendChild(h5);
         h5.setAttribute('class', 'card-title');
         h5.appendChild(document.createTextNode(key));
+
+        let h6 = document.createElement('h6');
+        cardBody.appendChild(h6);
+        h6.appendChild(document.createTextNode(date.toUTCString()));
 
         let p = document.createElement('p');
         cardBody.appendChild(p);
