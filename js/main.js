@@ -3,7 +3,6 @@ const TEXT_AREA = document.getElementById('noteTextArea');
 const NAME_FIELD = document.getElementById('urlName');
 
 const queryString = window.location.search;
-console.log(window.location)
 const urlParams = new URLSearchParams(queryString);
 let name = urlParams.get('name')
 
