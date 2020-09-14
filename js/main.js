@@ -37,10 +37,10 @@ function normalizeName() {
     if (!name) {
         name = 'blank'
         let newURL = window.location.href;
-        if (!urlParams.keys().next()) {
+        if (!urlParams.keys().next().value) {
             newURL += 'index.html?';
         } else {
-            newURL += '?';
+            newURL += '&';
         }
         newURL += 'name=' + name;
         window.history.pushState(name, name, newURL);
