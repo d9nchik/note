@@ -165,6 +165,19 @@ function createNewNote() {
     }
 }
 
+function generateSymbol() {
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return characters.charAt(Math.floor(Math.random() * characters.length));
+}
+
+function makeID(length) {
+    let result = '';
+    for (var i = 0; i < length; i++) {
+        result += generateSymbol();
+    }
+    return result;
+}
+
 window.onload = function () {
     normalizeName();
     openNote(idOfNote);
