@@ -157,6 +157,10 @@ function deleteNote() {
 }
 
 function createNewNote() {
+    //TODO: defend from injection;
+    //For example this <script>alert('Hi');</script>
+    //Or '); alert('Hi
+    //TODO: defend from null
     openNote(prompt('Enter name of note'), 'void');
     save();
     displayNames();
