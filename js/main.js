@@ -160,10 +160,13 @@ function createNewNote() {
     //TODO: defend from injection;
     //For example this <script>alert('Hi');</script>
     //Or '); alert('Hi
-    //TODO: defend from null
-    openNote(prompt('Enter name of note'), 'void');
-    save();
-    displayNames();
+    let noteName = prompt('Enter name of note');
+    if (noteName) {
+        // if user press 'cancel' or put empty string we wouldn't create new note
+        openNote();
+        save();
+        displayNames();
+    }
 }
 
 window.onload = function () {
