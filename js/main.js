@@ -4,28 +4,25 @@ const NAME_FIELD = document.getElementById('urlName');
 const NOTES_FIELD = document.getElementById('notesNames');
 const NAME_OF_KEYS_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_DATE_ARRAY = 'timeSingularity';
+const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
 //TODO: add ability to create notes with same name
 //TODO: add ability to start from /
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-let name = urlParams.get('name');
+let idOfNote = urlParams.get('id');
 
-const keys = (() => {
-    let keys = LOCAL_STORAGE.getItem(NAME_OF_KEYS_ARRAY);
+function getArrayFromStorage(nameInStorage) {
+    let keys = LOCAL_STORAGE.getItem(nameInStorage);
     if (!keys) {
         return [];
     }
     return JSON.parse(keys);
-})();
+}
 
-const dateOfCreation = (() => {
-    let keys = LOCAL_STORAGE.getItem(NAME_OF_DATE_ARRAY);
-    if (!keys) {
-        return [];
-    }
-    return JSON.parse(keys);
-})();
+const keys = getArrayFromStorage(NAME_OF_KEYS_ARRAY);
+const dateOfCreation = getArrayFromStorage(NAME_OF_DATE_ARRAY);
+const uniqueURL = getArrayFromStorage(NAME_OF_STORAGE_WITH_UNIQUE_URL);
 
 function getTextFromTextArea() {
     return TEXT_AREA.value;
@@ -36,21 +33,21 @@ function putInLocaleStorage(string, name) {
 }
 
 function normalizeName() {
-    if (!name) {
-        name = 'blank';
+    if (!idOfNote) {
+        idOfNote = 'blank';
         let newURL = window.location.href;
         if (newURL.includes('?')) {
             newURL += 'index.html?';
         } else {
             newURL += '&';
         }
-        newURL += 'name=' + name;
-        window.history.pushState(name, name, newURL);
+        newURL += 'id=' + idOfNote;
+        window.history.pushState(idOfNote, idOfNote, newURL);
     }
 }
 
 function deleteFromLocaleStorage() {
-    LOCAL_STORAGE.removeItem(name);
+    LOCAL_STORAGE.removeItem(idOfNote);
 }
 
 function setTextToTextArea(string) {
@@ -58,34 +55,34 @@ function setTextToTextArea(string) {
 }
 
 function pushTopKey() {
-    if (keys.includes(name)) {
-        let indexOf = keys.indexOf(name);
+    if (keys.includes(idOfNote)) {
+        let indexOf = keys.indexOf(idOfNote);
         keys.splice(indexOf, 1);
         dateOfCreation.splice(indexOf, 1);
     }
-    keys.unshift(name);
+    keys.unshift(idOfNote);
     dateOfCreation.unshift(new Date())
     LOCAL_STORAGE.setItem(NAME_OF_KEYS_ARRAY, JSON.stringify(keys));
     LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
 }
 
 function save() {
-    putInLocaleStorage(getTextFromTextArea(), name);
+    putInLocaleStorage(getTextFromTextArea(), idOfNote);
     pushTopKey();
 }
 
 function setNewURL(newName) {
-    let newURL = window.location.href.replace('name=' + encodeURI(name), 'name=' + newName);
-    name = newName;
-    window.history.pushState(name, name, newURL);
+    let newURL = window.location.href.replace('id=' + encodeURI(idOfNote), 'id=' + newName);
+    idOfNote = newName;
+    window.history.pushState(idOfNote, idOfNote, newURL);
 
 }
 
 function renameURL() {
     deleteFromLocaleStorage();
-    if (keys.includes(name)) {
+    if (keys.includes(idOfNote)) {
 
-        let indexOf = keys.indexOf(name);
+        let indexOf = keys.indexOf(idOfNote);
         keys.splice(indexOf, 1);
         dateOfCreation.splice(indexOf, 1);
     }
@@ -117,7 +114,7 @@ function displayNames() {
         card.appendChild(cardBody);
         cardBody.setAttribute('class', 'card-body');
         cardBody.setAttribute('onclick', "openNote('" + key + "');");
-        if (key === name) {
+        if (key === idOfNote) {
             cardBody.setAttribute('id', 'selectedCard');
         }
 
@@ -141,15 +138,15 @@ function displayNames() {
 function deleteNote() {
     if (confirm('Are you sure you want to delete note?')) {
         //deleting
-        if (keys.includes(name)) {
+        if (keys.includes(idOfNote)) {
 
-            let indexOf = keys.indexOf(name);
+            let indexOf = keys.indexOf(idOfNote);
             keys.splice(indexOf, 1);
             dateOfCreation.splice(indexOf, 1);
             LOCAL_STORAGE.setItem(NAME_OF_KEYS_ARRAY, JSON.stringify(keys));
             LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
         }
-        LOCAL_STORAGE.removeItem(name);
+        LOCAL_STORAGE.removeItem(idOfNote);
         openNote('blank');
         displayNames();
     }
@@ -170,6 +167,6 @@ function createNewNote() {
 
 window.onload = function () {
     normalizeName();
-    openNote(name);
+    openNote(idOfNote);
     displayNames();
 }
