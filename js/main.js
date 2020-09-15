@@ -92,7 +92,6 @@ function openNote(key) {
     setNewURL(key);
     let indexOf = keys.indexOf(idOfNote);
     NAME_FIELD.value = names[indexOf];
-    console.log(names[indexOf]);
     setTextToTextArea(LOCAL_STORAGE.getItem(key));
     displayNames();
 }
