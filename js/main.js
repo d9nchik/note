@@ -89,10 +89,10 @@ function renameNote() {
 }
 
 function openNote(key) {
+    setNewURL(key);
     let indexOf = keys.indexOf(idOfNote);
     NAME_FIELD.value = names[indexOf];
     console.log(names[indexOf]);
-    setNewURL(key);
     setTextToTextArea(LOCAL_STORAGE.getItem(key));
     displayNames();
 }
@@ -159,13 +159,13 @@ function createNewNote() {
     let noteName = prompt('Enter name of note');
     if (noteName) {
         // if user press 'cancel' or put empty string we wouldn't create new note
-        idOfNote = makeID(5);
-        keys.unshift(idOfNote);
+        id = makeID(5);
+        keys.unshift(id);
         names.unshift(noteName);
         dateOfCreation.unshift(new Date());
-        LOCAL_STORAGE.setItem(idOfNote, '');
+        LOCAL_STORAGE.setItem(id, '');
+        openNote(id);
         save();
-        openNote();
         displayNames();
     }
 }
