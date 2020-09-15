@@ -5,7 +5,6 @@ const NOTES_FIELD = document.getElementById('notesNames');
 const NAME_OF_KEYS_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_DATE_ARRAY = 'timeSingularity';
 //TODO: add ability to create notes with same name
-//TODO: fix problem with url
 //TODO: add ability to start from /
 
 const queryString = window.location.search;
@@ -38,9 +37,9 @@ function putInLocaleStorage(string, name) {
 
 function normalizeName() {
     if (!name) {
-        name = 'blank'
+        name = 'blank';
         let newURL = window.location.href;
-        if (!urlParams.keys().next().value) {
+        if (newURL.includes('?')) {
             newURL += 'index.html?';
         } else {
             newURL += '&';
