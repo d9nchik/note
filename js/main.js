@@ -63,12 +63,15 @@ function pushTopKey() {
         LOCAL_STORAGE.setItem(NAME_OF_STORAGE_WITH_UNIQUE_URL, JSON.stringify(keys));
         LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
         LOCAL_STORAGE.setItem(NAMES_ARRAY, JSON.stringify(names));
+        return true;
     }
+    return false;
 }
 
 function save() {
-    putInLocaleStorage(getTextFromTextArea(), idOfNote);
-    pushTopKey();
+    if (pushTopKey()) {
+        putInLocaleStorage(getTextFromTextArea(), idOfNote);
+    }
 }
 
 function setNewURL(newName) {
