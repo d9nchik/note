@@ -21,8 +21,13 @@ function getArrayFromStorage(nameInStorage) {
 }
 
 const keys = getArrayFromStorage(NAME_OF_STORAGE_WITH_UNIQUE_URL);
-const dateOfCreation = getArrayFromStorage(NAME_OF_DATE_ARRAY);
-const names = getArrayFromStorage(NAMES_ARRAY);
+const keysObjects = (() => {
+    let object = LOCAL_STORAGE.getItem(NAMES_ARRAY);
+    if (!object) {
+        return {};
+    }
+    return JSON.parse(object);
+})();
 
 function getTextFromTextArea() {
     return TEXT_AREA.value;
@@ -54,15 +59,13 @@ function pushTopKey() {
     if (keys.includes(idOfNote)) {
         let indexOf = keys.indexOf(idOfNote);
         keys.splice(indexOf, 1);
-        dateOfCreation.splice(indexOf, 1);
-        let name = names[indexOf];
-        names.splice(indexOf, 1);
+        keysObjects[idOfNote] = {
+            "name": keysObjects[idOfNote].name,
+            "date": JSON.stringify(new Date())
+        }
         keys.unshift(idOfNote);
-        dateOfCreation.unshift(new Date());
-        names.unshift(name);
         LOCAL_STORAGE.setItem(NAME_OF_STORAGE_WITH_UNIQUE_URL, JSON.stringify(keys));
-        LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
-        LOCAL_STORAGE.setItem(NAMES_ARRAY, JSON.stringify(names));
+        LOCAL_STORAGE.setItem(NAMES_ARRAY, JSON.stringify(keysObjects));
         return true;
     }
     return false;
@@ -84,9 +87,10 @@ function setNewURL(newName) {
 
 function renameNote() {
     if (keys.includes(idOfNote)) {
-        let indexOf = keys.indexOf(idOfNote);
-        dateOfCreation[indexOf] = new Date();
-        names[indexOf] = NAME_FIELD.value;
+        keysObjects[idOfNote] = {
+            "name": NAME_FIELD.value,
+            "date": JSON.stringify(new Date())
+        }
         displayNames();
         pushTopKey();
     }
@@ -95,8 +99,7 @@ function renameNote() {
 function openNote(key) {
     if (keys.includes(key)) {
         setNewURL(key);
-        let indexOf = keys.indexOf(idOfNote);
-        NAME_FIELD.value = names[indexOf];
+        NAME_FIELD.value = keysObjects[key].name;
         setTextToTextArea(LOCAL_STORAGE.getItem(key));
         displayNames();
     }
@@ -105,10 +108,9 @@ function openNote(key) {
 function displayNames() {
     NOTES_FIELD.textContent = '';
     NOTES_FIELD.appendChild(document.createTextNode('Select note:'))
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        let date = new Date(dateOfCreation[i]);
-        let name = names[i];
+    for (let key of keys) {
+        let date = new Date(keysObjects[key].date);
+        let name = keysObjects[key].name;
         let card = document.createElement('div');
         NOTES_FIELD.appendChild(card);
         card.setAttribute('class', 'card btn btn-secondary bg-dark');
@@ -142,14 +144,11 @@ function deleteNote() {
     if (confirm('Are you sure you want to delete note?')) {
         //deleting
         if (keys.includes(idOfNote)) {
-
             let indexOf = keys.indexOf(idOfNote);
+            delete keysObjects[idOfNote];
             keys.splice(indexOf, 1);
-            dateOfCreation.splice(indexOf, 1);
-            names.splice(indexOf, 1);
-            LOCAL_STORAGE.setItem(NAMES_ARRAY, JSON.stringify(names));
-            LOCAL_STORAGE.setItem(NAME_OF_DATE_ARRAY, JSON.stringify(dateOfCreation));
             LOCAL_STORAGE.setItem(NAME_OF_STORAGE_WITH_UNIQUE_URL, JSON.stringify(keys));
+            LOCAL_STORAGE.setItem(NAMES_ARRAY, JSON.stringify(keysObjects));
         }
         LOCAL_STORAGE.removeItem(idOfNote);
         openNote(keys[0]);
@@ -166,8 +165,11 @@ function createNewNote() {
         }//Our id should be unique
 
         keys.unshift(id);
-        names.unshift(noteName);
-        dateOfCreation.unshift(new Date());
+        keysObjects[id] = {
+            "name": noteName,
+            "date": JSON.stringify(new Date())
+        }
+
         LOCAL_STORAGE.setItem(id, '');
         openNote(id);
         save();
