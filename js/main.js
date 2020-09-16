@@ -5,7 +5,7 @@ const NOTES_FIELD = document.getElementById('notesNames');
 const NAMES_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_DATE_ARRAY = 'timeSingularity';
 const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
-//TODO: add ability to start from /
+//TODO: Refactor to merge NAMES_ARRAY and NAME_OF_DATE_ARRAY in one object
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -74,6 +74,7 @@ function save() {
 }
 
 function setNewURL(newName) {
+    normalizeName();
     let newURL = window.location.href.replace('id=' + encodeURI(idOfNote), 'id=' + newName);
     idOfNote = newName;
     window.history.pushState(idOfNote, idOfNote, newURL);
@@ -91,11 +92,13 @@ function renameNote() {
 }
 
 function openNote(key) {
-    setNewURL(key);
-    let indexOf = keys.indexOf(idOfNote);
-    NAME_FIELD.value = names[indexOf];
-    setTextToTextArea(LOCAL_STORAGE.getItem(key));
-    displayNames();
+    if (keys.includes(key)) {
+        setNewURL(key);
+        let indexOf = keys.indexOf(idOfNote);
+        NAME_FIELD.value = names[indexOf];
+        setTextToTextArea(LOCAL_STORAGE.getItem(key));
+        displayNames();
+    }
 }
 
 function displayNames() {
@@ -157,6 +160,7 @@ function createNewNote() {
     let noteName = prompt('Enter name of note');
     if (noteName) {
         // if user press 'cancel' or put empty string we wouldn't create new note
+        //TODO: generate unique id
         id = makeID(5);
         keys.unshift(id);
         names.unshift(noteName);
@@ -182,7 +186,6 @@ function makeID(length) {
 }
 
 window.onload = function () {
-    normalizeName();
     openNote(idOfNote);
     displayNames();
 }
