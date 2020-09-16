@@ -6,6 +6,7 @@ const NAMES_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_DATE_ARRAY = 'timeSingularity';
 const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
 //TODO: Refactor to merge NAMES_ARRAY and NAME_OF_DATE_ARRAY in one object
+//Hash map can be used like these {}
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -161,7 +162,7 @@ function createNewNote() {
     if (noteName) {
         // if user press 'cancel' or put empty string we wouldn't create new note
         //TODO: generate unique id
-        id = makeID(5);
+        let id = makeID(5);
         keys.unshift(id);
         names.unshift(noteName);
         dateOfCreation.unshift(new Date());
