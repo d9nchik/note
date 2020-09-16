@@ -161,8 +161,10 @@ function createNewNote() {
     let noteName = prompt('Enter name of note');
     if (noteName) {
         // if user press 'cancel' or put empty string we wouldn't create new note
-        //TODO: generate unique id
-        let id = makeID(5);
+        let id;
+        while (keys.includes(id = makeID(5))) {
+        }//Our id should be unique
+
         keys.unshift(id);
         names.unshift(noteName);
         dateOfCreation.unshift(new Date());
