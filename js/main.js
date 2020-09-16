@@ -3,10 +3,7 @@ const TEXT_AREA = document.getElementById('noteTextArea');
 const NAME_FIELD = document.getElementById('urlName');
 const NOTES_FIELD = document.getElementById('notesNames');
 const NAMES_ARRAY = 'hesoyamBaguvix';//Easter egg
-const NAME_OF_DATE_ARRAY = 'timeSingularity';
 const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
-//TODO: Refactor to merge NAMES_ARRAY and NAME_OF_DATE_ARRAY in one object
-//Hash map can be used like these {}
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
