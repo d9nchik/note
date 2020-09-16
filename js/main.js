@@ -5,7 +5,6 @@ const NOTES_FIELD = document.getElementById('notesNames');
 const NAMES_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_DATE_ARRAY = 'timeSingularity';
 const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
-//TODO: add ability to create notes with same name
 //TODO: add ability to start from /
 
 const queryString = window.location.search;
@@ -155,9 +154,6 @@ function deleteNote() {
 }
 
 function createNewNote() {
-    //TODO: defend from injection;
-    //For example this <script>alert('Hi');</script>
-    //Or '); alert('Hi
     let noteName = prompt('Enter name of note');
     if (noteName) {
         // if user press 'cancel' or put empty string we wouldn't create new note
