@@ -61,7 +61,7 @@ function pushTopKey() {
         keys.splice(indexOf, 1);
         keysObjects[idOfNote] = {
             "name": keysObjects[idOfNote].name,
-            "date": JSON.stringify(new Date())
+            "date": new Date()
         }
         keys.unshift(idOfNote);
         LOCAL_STORAGE.setItem(NAME_OF_STORAGE_WITH_UNIQUE_URL, JSON.stringify(keys));
@@ -89,7 +89,7 @@ function renameNote() {
     if (keys.includes(idOfNote)) {
         keysObjects[idOfNote] = {
             "name": NAME_FIELD.value,
-            "date": JSON.stringify(new Date())
+            "date": new Date()
         }
         displayNames();
         pushTopKey();
@@ -167,7 +167,7 @@ function createNewNote() {
         keys.unshift(id);
         keysObjects[id] = {
             "name": noteName,
-            "date": JSON.stringify(new Date())
+            "date": new Date()
         }
 
         LOCAL_STORAGE.setItem(id, '');
