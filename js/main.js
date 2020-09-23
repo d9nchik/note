@@ -5,9 +5,7 @@ const NOTES_FIELD = document.getElementById('notesNames');
 const NAMES_ARRAY = 'hesoyamBaguvix';//Easter egg
 const NAME_OF_STORAGE_WITH_UNIQUE_URL = 'uniqueURL';
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-let idOfNote = urlParams.get('id');
+let idOfNote = new URLSearchParams(window.location.search).get('id');
 
 function getArrayFromStorage(nameInStorage) {
     let keys = LOCAL_STORAGE.getItem(nameInStorage);
