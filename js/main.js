@@ -115,7 +115,7 @@ function displayNames() {
         let cardBody = document.createElement("div");
         card.appendChild(cardBody);
         cardBody.setAttribute('class', 'card-body');
-        cardBody.setAttribute('onclick', "openNote('" + key + "');");
+        cardBody.addEventListener('click', () => openNote(key));
         if (key === idOfNote) {
             cardBody.setAttribute('id', 'selectedCard');
         }
