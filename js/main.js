@@ -127,8 +127,9 @@ function displayNames() {
         let h6 = document.createElement('h6');
         cardBody.appendChild(h6);
         h6.appendChild(document.createTextNode(new Intl.DateTimeFormat(undefined, {
+            weekday: "long",
             year: "numeric",
-            month: "numeric",
+            month: "long",
             day: "numeric",
             hour: "numeric",
             minute: "numeric",
