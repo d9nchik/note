@@ -1,4 +1,4 @@
-![SoloNote site](https://i.ibb.co/qnn9j29/Screenshot-2020-09-14-My-Note-1.png)
+[![SoloNote site](https://i.ibb.co/qnn9j29/Screenshot-2020-09-14-My-Note-1.png)](https://d9nchik.github.io/note)
 # note
 Attempt to create analogue of evernote
 ## License
