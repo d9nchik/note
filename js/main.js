@@ -126,7 +126,14 @@ function displayNames() {
 
         let h6 = document.createElement('h6');
         cardBody.appendChild(h6);
-        h6.appendChild(document.createTextNode(date.toUTCString()));
+        h6.appendChild(document.createTextNode(new Intl.DateTimeFormat(undefined, {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric"
+        }).format(date)));
 
         let p = document.createElement('p');
         cardBody.appendChild(p);
